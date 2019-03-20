@@ -42,6 +42,7 @@ static FILE *open_or_die( const char *filename, const char *ht )
     return fp;
 }
 
+// Load the HMM into *hmm from file
 static void loadHMM( HMM *hmm, const char *filename )
 {
     int i, j;
@@ -72,7 +73,7 @@ static void loadHMM( HMM *hmm, const char *filename )
                 for( j = 0 ; j < hmm->state_num ; j++ )
                     fscanf(fp, "%lf", &( hmm->transition[i][j] ));
         }
-        // Read observation matrix from the txt file
+        // Read observation matrix (observe, state) from the txt file
         else if( strcmp( token, "observation:" ) == 0 ){
             fscanf(fp, "%d", &hmm->observ_num );
 
@@ -83,6 +84,7 @@ static void loadHMM( HMM *hmm, const char *filename )
     }
 }
 
+// Write the *hmm into fp file
 static void dumpHMM( FILE *fp, HMM *hmm )
 {
     int i, j;
@@ -108,6 +110,7 @@ static void dumpHMM( FILE *fp, HMM *hmm )
     }
 }
 
+// Load hmm into *hmm from a list of file
 static int load_models( const char *listname, HMM *hmm, const int max_num )
 {
     FILE *fp = open_or_die( listname, "r" );
@@ -127,6 +130,7 @@ static int load_models( const char *listname, HMM *hmm, const int max_num )
     return count;
 }
 
+// Print the hmm on the screen
 static void dump_models( HMM *hmm, const int num )
 {
     int i = 0;
