@@ -12,4 +12,6 @@ PROJECT(dsp_hw1)
 #        CLION_EXE_DIR=${PROJECT_BINARY_DIR} && cp ${hw1_SOURCE_DIR}/test_hmm ./})
 
 # ADD
-ADD_EXECUTABLE(test_hmm dsp_hw1/c_cpp/test_hmm.c dsp_hw1/c_cpp/train.c dsp_hw1/c_cpp/test.c)
+ADD_EXECUTABLE(test_hmm dsp_hw1/c_cpp/test_hmm.c)
+ADD_EXECUTABLE(train dsp_hw1/c_cpp/train.c dsp_hw1/c_cpp/forbackward.h)
+ADD_EXECUTABLE(test dsp_hw1/c_cpp/test.c dsp_hw1/c_cpp/forbackward.h dsp_hw1/c_cpp/viterbi.h)

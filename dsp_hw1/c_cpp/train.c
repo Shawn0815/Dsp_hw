@@ -45,12 +45,13 @@ int main(int argc, char *argv[]){
 
     //load the training sequences
     char *seqFile = argv[3];
+    char *outFile = argv[4];
 
 
     // Training
     LoadSequence(&forwardBlock, seqFile);
     short iteration=1;
-
+    FILE *fp = NULL;
     do {
 
         CalculateAlphaN(&forwardBlock, &hmm_initial);
@@ -60,20 +61,24 @@ int main(int argc, char *argv[]){
         CalculateNewTransitionN(&forwardBlock);
         CalculateNewObservationN(&forwardBlock);
         CalculateNewInitial(&forwardBlock);
+        //CheckResultMatrix(&forwardBlock, iteration);
 
-        FILE *fp = NULL;
 
-        fp = fopen("model_init_temp.txt", "w+");
+        if (iteration==num_Iteration){
+            initModel=outFile;
+        }
+
+        fp = fopen(initModel, "w+");
 
         fprintf(fp, "initial: %d \n", STATE);
         for (int tt=0; tt<STATE; tt++){
-            fprintf(fp, "%.15f ", forwardBlock.newInitial[tt]);
+            fprintf(fp, "%f ", forwardBlock.newInitial[tt]);
         }
 
         fprintf(fp, "\n\ntransition: %d \n", STATE);
         for (int tt=0; tt<STATE; tt++){
             for (int st=0; st<STATE; st++){
-                fprintf(fp, "%.15f ", forwardBlock.newTransition[tt][st]);
+                fprintf(fp, "%f ", forwardBlock.newTransition[tt][st]);
             }
             fprintf(fp, "\n");
         }
@@ -81,7 +86,7 @@ int main(int argc, char *argv[]){
         fprintf(fp, "\n\nobservation: %d \n", STATE);
         for (int tt=0; tt<STATE; tt++){
             for (int st=0; st<STATE; st++){
-                fprintf(fp, "%.15f ", forwardBlock.newObservation[tt][st]);
+                fprintf(fp, "%f ", forwardBlock.newObservation[tt][st]);
             }
             fprintf(fp, "\n");
         }
@@ -98,6 +103,8 @@ int main(int argc, char *argv[]){
         iteration++;
 
     }while (iteration<num_Iteration+1);
+
+    printf("...");
 
 
 

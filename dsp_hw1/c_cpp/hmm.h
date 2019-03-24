@@ -110,7 +110,7 @@ static void dumpHMM( FILE *fp, HMM *hmm )
     }
 }
 
-// Load hmm into *hmm from a list of file
+// Load hmm into hmm[]  from a list of file
 static int load_models( const char *listname, HMM *hmm, const int max_num )
 {
     FILE *fp = open_or_die( listname, "r" );
